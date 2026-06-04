@@ -20,6 +20,7 @@ export async function GET() {
                 const subclassData = await subclassRes.json()
 
                 return {
+                    index: char.index,
                     name: char.name,
                     description: subclassData.desc?.[0] || "No description"
                 }

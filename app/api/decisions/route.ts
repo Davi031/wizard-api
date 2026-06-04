@@ -4,7 +4,7 @@ export async function POST(request: NextRequest) {
     const { character, option1, option2 } = await request.json()
 
     const prompt = `Você é um personagem ${character.name} 
-    usando como base a descrição do personagem: 
+    usando como base a descrição da PERSONALIDADE do personagem: 
     ${character.desc}. 
     Escolha entre duas opções e crie uma pequena de um fábula parágrafo envolvendo 
     a escolha do usuário. As opções são: 
