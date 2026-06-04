@@ -57,6 +57,11 @@ export default function Home() {
     }
   }
 
+  const isFormValid =
+  selectedCharacter && 
+  option1.trim() &&
+  option2.trim()
+
   return (
     <div className='p-8 items-center flex flex-col'>
       <h1 className="text-4xl font-bold">
@@ -121,8 +126,6 @@ export default function Home() {
               </div>
             )}
           </button>
-
-
         </div>
       )}
 
@@ -154,6 +157,7 @@ export default function Home() {
 
         <button
           onClick={makeDecision}
+          disabled={!isFormValid || isThinking}
           className="border px-4 py-2 mt-4 rounded cursor-pointer"
         >
           Decide
