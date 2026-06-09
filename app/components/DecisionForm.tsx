@@ -58,9 +58,7 @@ export default function DecisionForm({
                     mt-4
                     w-full
                     rounded
-                    cursor-pointer
-                    
-                    
+                    cursor-pointer 
                 "
             >
                 Decide

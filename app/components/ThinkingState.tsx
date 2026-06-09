@@ -7,11 +7,11 @@ export default function ThinkingState({
 }: Props) {
     return (
         <div>
-            <h2>
+            <h2 className="animate-pulse">
                 {name} is thinking...
             </h2>
 
-            <p>
+            <p className="animate-pulse">
                 Considering both options...
             </p>
         </div>

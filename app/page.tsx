@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 import CharacterSelector from './components/CharacterSelector'
 import CharacterDescription from './components/CharacterDescription'
@@ -17,6 +17,7 @@ import { makeDecisionRequest } from './services/decisions'
 export default function Home() {
   const [characters, setCharacters] = useState<Character[]>([])
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   const [option1, setOption1] = useState("")
   const [option2, setOption2] = useState("")
@@ -25,9 +26,19 @@ export default function Home() {
   const [isThinking, setIsThinking] = useState(false)
   const [showDescription, setShowDescription] = useState(false)
 
+  const resultRef = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
     loadCharacters()
   }, [])
+
+  useEffect(() => {
+    if (story) {
+      resultRef.current?.scrollIntoView({
+        behavior: "smooth"
+      })
+    }
+  }, [story])
 
   const loadCharacters = async () => {
     const data = await fetchCharacters()
@@ -35,7 +46,18 @@ export default function Home() {
   }
 
   const makeDecision = async () => {
-    if (!selectedCharacter) return
+    setError("")
+    setStory("")
+
+    if (!selectedCharacter) {
+      setError("Choose a character before making a decision.")
+      return
+    }
+
+    if (!option1.trim() || !option2.trim()) {
+      setError("Fill both options.")
+      return
+    }
 
     setIsThinking(true)
 
@@ -60,7 +82,7 @@ export default function Home() {
         Make decisions using the personality of your characters!
       </h1>
 
-      <CharacterAvatar 
+      <CharacterAvatar
         character={selectedCharacter}
       />
 
@@ -91,17 +113,28 @@ export default function Home() {
         disabled={isThinking}
       />
 
+      {error && (
+        <div
+          className='mt-4 border 
+        border-red-500 bg-red-100 
+        text-red-700 px-4 py-3 rounded'>
+          {error}
+        </div>
+      )}
+
       {isThinking && (
         <ThinkingState
           name={selectedCharacter?.name}
         />
       )}
 
-      {story && (
-        <StoryResult
-          story={story}
-        />
-      )}
+      <div ref={resultRef}>
+        {story && (
+          <StoryResult
+            story={story}
+          />
+        )}
+      </div>
     </div>
   )
 }
